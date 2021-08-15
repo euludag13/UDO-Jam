@@ -4,47 +4,51 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
+	public Dialog dialog;
 	public CharacterController2D controller;
 	public SoundManager SoundManager;
 	public Animator animator;
 	public bool isDead;
 	public bool isGround;
+	public bool canMove;
 	public float runSpeed = 40f;
 
 	float horizontalMove = 0f;
 	bool jump = false;
-	
-	
-	void Start()
+
+ 
+    void Start()
     {
 		isDead = false;
 		isGround = false;
+		canMove = true;
     }
 		
 	
 	void Update () {
 
-		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        if (isDead == false)
+        if (isDead == false && canMove == true)
         {
+			horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 			animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 		}
 
-		if (Input.GetKey(KeyCode.Space) && isDead == false)
+		if (Input.GetKeyDown(KeyCode.Space) && isDead == false && canMove == true)
 		{
 			jump = true;
-			animator.SetBool("IsJumping", true);
 			SoundManager.PlaySound("Jump");
 		}
-
+		else if (Input.GetKey(KeyCode.Space) && isDead == false)
+		{
+			
+			jump = true;
+			animator.SetBool("IsJumping", true);
+		}
+		
 
 	}
-	void OnCollisionEnter2D(Collision2D col)
-	{
-        if (col.gameObject.tag == "TutorialFinish")
-        {
-			SceneManager.LoadScene("Lanet");
-        }
+	public void OnCollisionEnter2D(Collision2D col)
+	{	
 		if (col.gameObject.tag == "MaðraBitiþ")
 		{
 			SceneManager.LoadScene("1");
@@ -57,6 +61,19 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			isGround = true;
 		}
+        if (col.gameObject.tag == ("Diyalog"))
+        {
+			canMove = false;
+			dialog.anim.SetBool("IsOpen", true);
+			dialog.StartDialog();
+			Destroy(dialog.Bariyer);
+			
+        }
+        if (col.gameObject.tag == "Lanet")
+        {
+			SceneManager.LoadScene("Lanet");
+		}
+	
 	}
 
 	public void OnLanding ()
@@ -69,7 +86,10 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		controller.Move(horizontalMove * Time.fixedDeltaTime, jump);
+        if (canMove == true)
+        {
+			controller.Move(horizontalMove * Time.fixedDeltaTime, jump);
+		}
 		jump = false;
 	}
 }

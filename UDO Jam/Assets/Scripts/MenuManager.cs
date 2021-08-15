@@ -7,8 +7,8 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject Credits;
     public void SetGame()
-    {
-        SceneManager.LoadScene(1);
+    {      
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
     public void SetCredits()
     {

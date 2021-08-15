@@ -8,6 +8,7 @@ public class gamemanager : MonoBehaviour
     public PlayerMovement PlayerScript;
     public GameObject DeathScreen;
     public GameObject Player;
+    
     void Start()
     {
         
@@ -23,9 +24,5 @@ public class gamemanager : MonoBehaviour
             DeathScreen.SetActive(true);
             //Destroy(Player);
         }
-    }
-    public void SetGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

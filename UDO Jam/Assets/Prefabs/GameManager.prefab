@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerScript: {fileID: 0}
   DeathScreen: {fileID: 0}
+  Player: {fileID: 2765389971043127707, guid: 68031f8cee4fb7949ae6a8914611e9d3, type: 3}

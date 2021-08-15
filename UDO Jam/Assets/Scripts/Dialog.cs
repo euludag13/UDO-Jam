@@ -6,11 +6,19 @@ using TMPro;
 public class Dialog : MonoBehaviour
 {
     public TextMeshProUGUI TextDisplay;
+    public PlayerMovement PlayerScript;
+    public Animator anim;
+    public Animator Kýzanim;
+    public GameObject OliviaKafa;
+    public GameObject KöylüKafa;
+    public GameObject BüyücüKafa;
+    public GameObject Bariyer;
     public string[] Sentences;
     public float TypingSpeed;
     private int index;
-    private int counter;
-    private int SentencesLenght;
+    public int counter;
+    public int SentencesLenght;
+    private int kafaCounter;
 
     private void Start()
     {
@@ -20,16 +28,15 @@ public class Dialog : MonoBehaviour
     }
     void Update()
     {
+
+
         if (Input.GetMouseButtonDown(0))
         {
-            if (counter == SentencesLenght + 2)
-            {
-                SceneManager.LoadScene("MaðraDüþme");
-            }
-            counter++;
+           
             if (TextDisplay.text == Sentences[index])
             {
                 NextSentence();
+                counter++;
             }
             else
             {
@@ -38,12 +45,12 @@ public class Dialog : MonoBehaviour
             }
         }
     }
-    void StartDialog()
+    public void StartDialog()
     {
         index = 0;
         StartCoroutine(Type());
     }
-    IEnumerator Type()
+    public IEnumerator Type()
     {
         foreach (char letter in Sentences[index].ToCharArray())
         {
@@ -53,18 +60,60 @@ public class Dialog : MonoBehaviour
         }
 
     }
-    public void NextSentence()
+    public void LanetNextSentence()
     {
         if (index < Sentences.Length - 1)
         {
+            kafaCounter++;
+            if (kafaCounter % 2 == 0)
+            {
+                OliviaKafa.SetActive(true);
+                BüyücüKafa.SetActive(false);
+            }
+            else
+            {
+                OliviaKafa.SetActive(false);
+                BüyücüKafa.SetActive(true);
+            }
             index++;
             TextDisplay.text = "";
             StartCoroutine(Type());
 
+
         }
         else
         {
-            gameObject.SetActive(false);
+            anim.SetBool("ýsClose", true);
+            Kýzanim.SetBool("Finish", true);
+            PlayerScript.canMove = true;
+        }   
+    }
+    public void NextSentence()
+    {
+        if (index < Sentences.Length - 1)
+        {
+            kafaCounter++;
+            if (kafaCounter % 2 == 0)
+            {
+                OliviaKafa.SetActive(true);
+                KöylüKafa.SetActive(false);
+            }
+            else
+            {
+                OliviaKafa.SetActive(false);
+                KöylüKafa.SetActive(true);
+            }
+            index++;
+            TextDisplay.text = "";
+            StartCoroutine(Type());
+
+
+        }
+        else
+        {
+            anim.SetBool("ýsClose", true);
+            Kýzanim.SetBool("Finish", true);
+            PlayerScript.canMove = true;    
         }
     }
 }

@@ -8,6 +8,11 @@ TagManager:
   - Tuzak
   - Zemin
   - "Ma\u011FraBiti\u015F"
+  - Credits
+  - Diyalog
+  - "B\xFCy\xFC"
+  - Lanet
+  - "Ma\u011FraGe\xE7i\u015F"
   layers:
   - Default
   - TransparentFX
@@ -42,6 +47,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Player
+    uniqueID: 2679635965
+    locked: 0
   - name: Background
     uniqueID: 1611635347
     locked: 0
