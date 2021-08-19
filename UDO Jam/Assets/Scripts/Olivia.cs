@@ -6,6 +6,7 @@ using UnityEngine;
 public class Olivia : MonoBehaviour
 {
     private Animator OliviaAnimator;
+    public CubukGelme CubukScript;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class Olivia : MonoBehaviour
         {
             Destroy(GameObject.FindGameObjectWithTag("Büyü"));
             OliviaAnimator.SetBool("isFinish", true);
+            CubukScript.BarierSpeed = 1f;
         }
         if (collision.gameObject.tag == "MaðraGeçiþ")
         {

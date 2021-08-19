@@ -6,17 +6,21 @@ public class PlayerMovement : MonoBehaviour {
 
 	public Dialog dialog;
 	public CharacterController2D controller;
+	public CubukGelme CubukScript;
+	public GameObject Boss;
 	public SoundManager SoundManager;
+	public BossControl BossScript;
 	public Animator animator;
 	public bool isDead;
 	public bool isGround;
 	public bool canMove;
 	public float runSpeed = 40f;
+	public bool canMoveBool;
 
 	float horizontalMove = 0f;
 	bool jump = false;
 
- 
+
     void Start()
     {
 		isDead = false;
@@ -26,8 +30,8 @@ public class PlayerMovement : MonoBehaviour {
 		
 	
 	void Update () {
-
-        if (isDead == false && canMove == true)
+		
+		if (isDead == false && canMove == true)
         {
 			horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 			animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -43,6 +47,16 @@ public class PlayerMovement : MonoBehaviour {
 			
 			jump = true;
 			animator.SetBool("IsJumping", true);
+		}
+        else if (BossScript.HealtBar.value == 0)
+        {
+
+			Destroy(Boss);
+			canMove = false;
+			animator.SetBool("ýsFnish", true);			
+			CubukScript.BarierSpeed = 4;
+			SceneManager.LoadScene("FinalScene");
+
 		}
 		
 
@@ -73,7 +87,27 @@ public class PlayerMovement : MonoBehaviour {
         {
 			SceneManager.LoadScene("Lanet");
 		}
-	
+        if (col.gameObject.tag == "BossBariyer")
+        {
+			animator.SetBool("IsCol",true);
+        }
+        if (col.gameObject.tag == "2.Bölüm")
+        {
+
+			SceneManager.LoadScene("2");
+		}
+		if (col.gameObject.tag == "BossOdasý")
+		{
+
+			SceneManager.LoadScene("BüyücüBoss");
+		}
+        if (col.gameObject.tag == "Bitiþ")
+        {
+			SceneManager.LoadScene("FinialScene");
+        }
+
+
+
 	}
 
 	public void OnLanding ()
@@ -82,6 +116,18 @@ public class PlayerMovement : MonoBehaviour {
         {
 			animator.SetBool("IsJumping", false);
 		}
+	}
+	public void CantMove()
+	{
+		canMoveBool = false;
+		
+	}
+	public void CanMove()
+	{
+		canMoveBool = true;
+
+		
+
 	}
 
 	void FixedUpdate ()
